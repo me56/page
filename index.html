@@ -1,11 +1,278 @@
 <!doctype html>
-<html lang="en">
-  <head>
+<html lang="zh-CN" class="h-100">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
-  </body>
+    <meta name="keywords" content="摘录">
+    <meta name="description" content="摘录">
+    <title>摘录</title>
+    <link rel="canonical" href="https://95zhizun.top/pages/excerpt">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <!--    <script async src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>-->
+    <link rel="shortcut icon" href="
+https://95zhizun.top/static/images/circle3.png" type="image/png">
+    <!-- Custom styles for this template -->
+    <style>
+        ::selection {
+            color: #fff;
+            text-shadow: none;
+            background: #384452;
+        }
+
+        body {
+            background-color: #f9f5e9;
+        }
+
+        .plaintext {
+            white-space: pre-line;
+        }
+
+        .container {
+            max-width: 992px;
+            min-width: 350px;
+        }
+
+        .hamburger {
+            position: relative
+        }
+
+        .hamburger, .hamburger:before, .hamburger:after {
+            border-radius: 100%;
+            height: 3px;
+            width: 3px;
+            background: #8a8a8a;
+            display: block;
+            content: "";
+            transition: background .1s ease-in-out, color .1s ease-in-out;
+        }
+
+        .hamburger:before {
+            position: absolute;
+            bottom: -8px;
+            width: 3px;
+        }
+
+        .hamburger:after {
+            position: absolute;
+            bottom: -16px;
+            width: 3px;
+        }
+
+        .section::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 1rem;
+            right: 1rem;
+            height: 1px;
+            background-color: #c7c7c7;
+            transform: scaleY(.5);
+        }
+
+        .detail {
+            cursor: pointer;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+    <style>
+        .wrapper {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .menu-item {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            outline: none;
+            color: #333;
+        }
+
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .position-fixed {
+            width: 5rem;
+            height: 5rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: .375rem;
+            color: #f0f0f0;
+            text-align: center;
+            align-content: center;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+    <div id="flag" class="d-none" data-flag=""></div>
+    <div class="container my-5" id="excerptZone">
+        <div class="w-100 text-center text-muted p-3 d-none">
+            <a href="#" class="text-reset text-decoration-none" id="load-more">点击加载更多</a>
+        </div>
+    </div>
+</main>
+<footer class="footer mt-auto">
+    <div class="container">
+        <ul class="nav justify-content-center border-bottom">
+            <li class="nav-item"><a href="/" class="nav-link text-muted px-2">首页</a></li>
+            <li class="nav-item"><a href="/pages/excerpt" class="nav-link text-muted px-2">摘录</a></li>
+            <li class="nav-item"><a href="/pages/basket" class="nav-link text-muted px-2">杂货铺</a></li>
+            <li class="nav-item"><a href="/pages/life" class="nav-link text-muted px-2">我们这一生</a></li>
+        </ul>
+        <div class="text-center text-muted py-3">
+            <span class="text-nowrap">
+                © 2019-2025 版权所有 <a class="text-decoration-none" href="https://95zhizun.top/about95">㈨㈤</a>
+            </span>
+        </div>
+    </div>
+</footer>
+<script>
+    function renderData(data) {
+        let html = '';
+        for (const datum of data) {
+            html += `<div class="p-3 d-flex position-relative section">
+<div class="plaintext" id="MC_${datum['uniqid']}">${datum['content']}</div>
+<div class="detail ms-auto" data-flag="${datum['uniqid']}"><i data-flag="${datum['uniqid']}" class="hamburger"></i></div>
+</div>`;
+        }
+        return html;
+    }
+
+    async function main(url) {
+        try {
+            let response = await fetch(url);
+            let data = await response.json();
+
+            // let testData = `{"code":1,"data":[{"content":"每一个出嫁的女子，都是孤身进入荒莽之地的旅人。","uniqid":"f1c8292a","data_src":"","created_at":null},{"content":"知世故而不世故，才是温柔。\\r\\n\\r\\n知晓人情世故，却不与世俗同流而污，也没有因为知晓人情世故而变得圆滑、不真诚。其实，这两个世故不是一个意思，前者是名词，指的是人情世故，而第二个词是形容词，指的是为人处事圆滑世故。人身处俗世，陷于人情世故之中，很容易失去本心，变得圆滑、油腻、不真诚，失去了最早的天真，但是如果有人知晓世故，懂得人情事理的各种关系，却依旧能保持天真和温柔地对待不同的人和事，那么这样的人才是温柔的人。","uniqid":"0459483a","data_src":"","created_at":null},{"content":"外貌美只能取悦一时，内心美方能经久不衰。","uniqid":"78377f92","data_src":"","created_at":null}]}`;
+            // let data = JSON.parse(testData);
+
+            if (data.code) {
+                let html = renderData(data.data);
+                document.querySelector('#excerptZone').lastElementChild.insertAdjacentHTML('beforebegin', html);
+            }
+        } catch (error) {
+            document.querySelector('#excerptZone').lastElementChild.insertAdjacentHTML('beforebegin', `无法获取信息：${error}`);
+        }
+    }
+
+    let url = new URL(document.location);
+    let eid = url.searchParams.get("eid");
+    if (eid) {
+        main(`/data/excerpt?eid=${eid}`);
+    } else {
+        main('/data/excerpt');
+        const load_more = document.querySelector('#load-more');
+        load_more.parentElement.classList.remove('d-none');
+        load_more.addEventListener('click', function (evt) {
+            evt.preventDefault();
+            const page = evt.currentTarget.getAttribute('data-page') ?? 2;
+            if (url.pathname === '/pages/excerpt') {
+                main(`/data/excerpt?page=${page}`);
+                evt.currentTarget.setAttribute('data-page', parseInt(page) + 1);
+            }
+        }, false);
+    }
+
+</script>
+<script>
+    // 使用事件委托，将事件绑定到静态父元素上
+    document.addEventListener('DOMContentLoaded', () => {
+        // 假设动态内容会被添加到这个容器中
+        document.querySelector('#excerptZone').addEventListener('click', function (event) {
+            // 检查点击的元素是否是我们关心的元素
+            if (event.target.closest('.detail')) {
+                // 处理点击事件
+                // console.log('动态按钮被点击了', event.target);
+
+                let data_fag = event.target.getAttribute('data-flag');
+
+                const {pageX, pageY} = event;
+
+                const wrapper = document.createElement('div');
+                wrapper.classList.add('wrapper');
+
+                let fragment = document.createDocumentFragment();
+                let menus = ["详情", "复制", "链接"];
+
+                for (const menu of menus) {
+                    let menu_item = document.createElement("a");
+                    let cliptext = `${window.location.href}?eid=${data_fag}`;
+                    if (menu === '复制') {
+                        cliptext = document.querySelector(`#MC_${data_fag}`).textContent;
+                    } else if (menu === '详情') {
+                        menu_item.setAttribute('href', cliptext);
+                        menu_item.setAttribute('target', '_blank');
+                    } else {
+                        menu_item.setAttribute('href', 'javascript:void(0)');
+                    }
+                    menu_item.classList.add('text-decoration-none');
+                    menu_item.addEventListener("click", async () => {
+                        let feedback = "已复制";
+                        try {
+                            await navigator.clipboard.writeText(cliptext);
+                        } catch (error) {
+                            console.error(error.message);
+                            feedback = "不被允许写入剪贴板";
+                        }
+
+                        const toast = document.createElement('div');
+                        toast.classList.add("position-fixed", "top-50", "start-50", "translate-middle");
+                        toast.textContent = feedback;
+
+                        setTimeout(() => {
+                            toast.style.display = 'none';
+                        }, 1500);
+
+                        document.body.appendChild(toast);
+                    });
+
+                    menu_item.classList.add("menu-item", "flex-shrink-0");
+                    menu_item.textContent = menu;
+                    fragment.appendChild(menu_item);
+                }
+                wrapper.appendChild(fragment);
+
+                wrapper.style.display = 'flex';
+                wrapper.style.left = `${pageX - 216}px`;
+                wrapper.style.top = `${pageY - 60}px`;
+                document.body.appendChild(wrapper);
+
+                // 鼠标移入菜单时，清除定时器
+                let hideTimeout = null;
+
+                hideTimeout = setTimeout(() => {
+                    wrapper.style.display = 'none';
+                }, 2000);
+
+                wrapper.addEventListener('mouseenter', () => {
+                    clearTimeout(hideTimeout);
+                });
+
+                // 鼠标移出菜单时，设置定时器
+                wrapper.addEventListener('mouseleave', () => {
+                    hideTimeout = setTimeout(() => {
+                        wrapper.style.display = 'none';
+                    }, 2000); // 2秒后隐藏菜单
+                });
+            }
+
+            // 或者检查元素
+            // event.target.matches('.detail')
+            // 或者检查元素的父元素
+            // if (event.target.closest('.section')) {
+            //     console.log('动态项目被点击了', event.target);
+            // }
+        });
+    });
+</script>
+</body>
 </html>
