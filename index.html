@@ -167,16 +167,16 @@ https://95zhizun.top/static/images/circle3.png" type="image/png">
     let url = new URL(document.location);
     let eid = url.searchParams.get("eid");
     if (eid) {
-        main(`/data/excerpt?eid=${eid}`);
+        main(`https://95zhizun.top/data/excerpt?eid=${eid}`);
     } else {
-        main('/data/excerpt');
+        main('https://95zhizun.top/data/excerpt');
         const load_more = document.querySelector('#load-more');
         load_more.parentElement.classList.remove('d-none');
         load_more.addEventListener('click', function (evt) {
             evt.preventDefault();
             const page = evt.currentTarget.getAttribute('data-page') ?? 2;
             if (url.pathname === '/pages/excerpt') {
-                main(`/data/excerpt?page=${page}`);
+                main(`https://95zhizun.top/data/excerpt?page=${page}`);
                 evt.currentTarget.setAttribute('data-page', parseInt(page) + 1);
             }
         }, false);
